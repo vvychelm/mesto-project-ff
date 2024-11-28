@@ -1,6 +1,6 @@
 import './pages/index.css';
 import { initialCards } from './scripts/cards';
-import { createCard, deleteCard, likeCard } from './scripts/card';
+import { createCardElement, deleteCard, likeCard } from './scripts/card';
 import { openModal, closeModal } from './scripts/modal';
 
 // Темплейт карточки
@@ -21,9 +21,9 @@ const profileDescription = document.querySelector('.profile__description');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profileEditModal = document.querySelector('.popup_type_edit');
 
-const formElement = document.forms['edit-profile'];
-const nameInput = formElement.elements.name;
-const jobInput = formElement.elements.description;
+const profileEditForm = document.forms['edit-profile'];
+const nameInput = profileEditForm.elements.name;
+const jobInput = profileEditForm.elements.description;
 
 const cardAddButton = document.querySelector('.profile__add-button');
 const cardAddModal = document.querySelector('.popup_type_new-card');
@@ -38,7 +38,7 @@ const cardModalTitle = document.querySelector('.popup__caption');
 // Функция вывода карточек на страницу
 function renderCards(cards) {
     cards.forEach(card => {
-        const element = createCard(card, deleteCard, cardTemplate, likeCard, openImageModal);
+        const element = createCardElement(card, deleteCard, cardTemplate, likeCard, openImageModal);
         cardList.append(element);
     });
 }
@@ -68,7 +68,7 @@ modalCloseButtons.forEach(button => {
 
 
 // Функция закрытия попапа просле отправки формы
-function handleFormSubmit(evt) {
+function handleProfileFormSubmit(evt) {
     evt.preventDefault();
     profileTitle.textContent = nameInput.value;
     profileDescription.textContent = jobInput.value;
@@ -82,7 +82,7 @@ function handleAddCard(evt) {
         name: cardNameInput.value,
         link: cardLinkInput.value
     }
-    const element = createCard(addedCard, deleteCard, cardTemplate, likeCard, openImageModal);
+    const element = createCardElement(addedCard, deleteCard, cardTemplate, likeCard, openImageModal);
     cardList.prepend(element);
     cardAddForm.reset();
     closeModal(cardAddModal);
@@ -96,6 +96,6 @@ function openImageModal(card) {
     openModal(cardModal);
 };
 
-formElement.addEventListener('submit', handleFormSubmit);
+profileEditForm.addEventListener('submit', handleProfileFormSubmit);
 
 cardAddForm.addEventListener('submit', handleAddCard);

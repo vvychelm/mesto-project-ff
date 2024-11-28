@@ -1,5 +1,5 @@
 // Функция создания карточки
-function createCard(card, removeCard, cardTemplate, like, modalOpen) {
+function createCardElement(card, removeCard, cardTemplate, like, modalOpen) {
     const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
 
     const cardTitle = cardElement.querySelector('.card__title');
@@ -33,4 +33,4 @@ function likeCard(evt) {
 };
 
 
-export { createCard, deleteCard, likeCard }
+export { createCardElement, deleteCard, likeCard }
