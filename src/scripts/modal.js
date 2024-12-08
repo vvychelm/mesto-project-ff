@@ -3,7 +3,6 @@ function openModal(modal) {
     modal.classList.add('popup_is-opened');
     modal.addEventListener('mousedown', handleCloseModalOverlay);
     document.addEventListener('keydown', handleCloseModalEsc);
-    console.log('opened')
 }
 
 // Функция закрытия попапа
@@ -11,7 +10,6 @@ function closeModal(modal) {
     modal.classList.remove('popup_is-opened');
     modal.removeEventListener('mousedown', handleCloseModalOverlay);
     document.removeEventListener('keydown', handleCloseModalEsc);
-    console.log('closed')
 }
 
 // Функция закрытия попапа при клике на оверлей
