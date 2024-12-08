@@ -51,7 +51,9 @@ const avatarModal = document.querySelector('.popup_type_new-avatar');
 const avatarEditForm = document.forms['edit-avatar'];
 const avatarFormInput = avatarEditForm.elements.avatar;
 
-const saveButton = profileEditForm.querySelector('.popup__button');
+const profileSaveButton = getSaveButton(profileEditForm);
+const cardAddSaveButton = getSaveButton(cardAddForm);
+const avatarSaveButton = getSaveButton(avatarEditForm);
 
 let myID = '';
 
@@ -105,11 +107,16 @@ function renderLoading(button, isLoading, loadingText = 'Сохранение...
     button.textContent = isLoading ? loadingText : defaultText;
 }
 
+function getSaveButton(formElement) {
+    return formElement.querySelector('.popup__button');
+}
+
+
 // Функция закрытия попапа просле отправки формы
 function handleProfileFormSubmit(evt) {
     evt.preventDefault();
 
-    renderLoading(saveButton, true);
+    renderLoading(profileSaveButton, true);
 
     updateUserData(nameInput.value, jobInput.value).then(UserData => {
         profileTitle.textContent = UserData.name;
@@ -118,7 +125,7 @@ function handleProfileFormSubmit(evt) {
     })
         .catch(err => console.log(err))
         .finally(() => {
-            renderLoading(saveButton, false);
+            renderLoading(profileSaveButton, false);
         })
 
 
@@ -128,7 +135,7 @@ function handleProfileFormSubmit(evt) {
 function handleAddCard(evt) {
     evt.preventDefault();
 
-    renderLoading(saveButton, true);
+    renderLoading(cardAddSaveButton, true);
 
     addCard(cardNameInput.value, cardLinkInput.value).then(cardData => {
         const element = createCardElement(cardData, myID, deleteCard, cardTemplate, likeCard, openImageModal);
@@ -138,7 +145,7 @@ function handleAddCard(evt) {
     })
         .catch(err => console.log(err))
         .finally(() => {
-            renderLoading(saveButton, false);
+            renderLoading(cardAddSaveButton, false);
         })
 };
 
@@ -146,7 +153,7 @@ function handleAddCard(evt) {
 function handleAvatarFormSubmit(evt) {
     evt.preventDefault()
 
-    renderLoading(saveButton, true);
+    renderLoading(avatarSaveButton, true);
 
     updateUserAvatar(avatarFormInput.value).then(userData => {
         profileImage.style.backgroundImage = `url(${userData.avatar})`;
@@ -155,7 +162,7 @@ function handleAvatarFormSubmit(evt) {
     })
         .catch(err => console.log(err))
         .finally(() => {
-            renderLoading(saveButton, false);
+            renderLoading(avatarSaveButton, false);
         })
 }
 
