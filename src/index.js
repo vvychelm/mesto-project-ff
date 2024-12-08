@@ -51,6 +51,8 @@ const avatarModal = document.querySelector('.popup_type_new-avatar');
 const avatarEditForm = document.forms['edit-avatar'];
 const avatarFormInput = avatarEditForm.elements.avatar;
 
+const saveButton = profileEditForm.querySelector('.popup__button');
+
 let myID = '';
 
 
@@ -98,32 +100,35 @@ modalCloseButtons.forEach(button => {
     });
 });
 
+// Функция для изменения состояния кнопки
+function renderLoading(button, isLoading, loadingText = 'Сохранение...', defaultText = 'Сохранить') {
+    button.textContent = isLoading ? loadingText : defaultText;
+}
 
 // Функция закрытия попапа просле отправки формы
 function handleProfileFormSubmit(evt) {
     evt.preventDefault();
 
-    const button = profileEditForm.querySelector('.popup__button');
-    button.textContent = 'Сохранение...'
+    renderLoading(saveButton, true);
 
     updateUserData(nameInput.value, jobInput.value).then(UserData => {
         profileTitle.textContent = UserData.name;
         profileDescription.textContent = UserData.about;
+        closeModal(profileEditModal);
     })
         .catch(err => console.log(err))
         .finally(() => {
-            button.textContent = 'Сохранить'
+            renderLoading(saveButton, false);
         })
 
-    closeModal(profileEditModal);
+
 };
 
 // Функция добавления карточки
 function handleAddCard(evt) {
     evt.preventDefault();
 
-    const button = cardAddForm.querySelector('.popup__button');
-    button.textContent = 'Сохранение...'
+    renderLoading(saveButton, true);
 
     addCard(cardNameInput.value, cardLinkInput.value).then(cardData => {
         const element = createCardElement(cardData, myID, deleteCard, cardTemplate, likeCard, openImageModal);
@@ -133,7 +138,7 @@ function handleAddCard(evt) {
     })
         .catch(err => console.log(err))
         .finally(() => {
-            button.textContent = 'Сохранить'
+            renderLoading(saveButton, false);
         })
 };
 
@@ -141,8 +146,7 @@ function handleAddCard(evt) {
 function handleAvatarFormSubmit(evt) {
     evt.preventDefault()
 
-    const button = avatarEditForm.querySelector('.popup__button');
-    button.textContent = 'Сохранение...'
+    renderLoading(saveButton, true);
 
     updateUserAvatar(avatarFormInput.value).then(userData => {
         profileImage.style.backgroundImage = `url(${userData.avatar})`;
@@ -151,7 +155,7 @@ function handleAvatarFormSubmit(evt) {
     })
         .catch(err => console.log(err))
         .finally(() => {
-            button.textContent = 'Сохранить'
+            renderLoading(saveButton, false);
         })
 }
 
